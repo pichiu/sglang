@@ -19,12 +19,13 @@ class UsageInfo(BaseModel):
 
 
 class CompletionRequest(BaseModel):
-    model: str
+    model: Optional[str] = None
     prompt: Union[str, List[str]]
     suffix: Optional[str] = None
     max_tokens: Optional[int] = 16
     temperature: Optional[float] = 0.7
     top_p: Optional[float] = 1.0
+    top_k: Optional[int] = -1
     n: Optional[int] = 1
     stream: Optional[bool] = False
     logprobs: Optional[int] = None
@@ -51,7 +52,7 @@ class CompletionResponse(BaseModel):
     id: str
     object: str = "text_completion"
     created: int = Field(default_factory=lambda: int(time.time()))
-    model: str
+    model: Optional[str] = None
     choices: List[CompletionResponseChoice]
     usage: UsageInfo
 
@@ -67,7 +68,7 @@ class CompletionStreamResponse(BaseModel):
     id: str
     object: str = "text_completion"
     created: int = Field(default_factory=lambda: int(time.time()))
-    model: str
+    model: Optional[str] = None
     choices: List[CompletionResponseStreamChoice]
     usage: UsageInfo
 
@@ -108,10 +109,11 @@ ChatCompletionMessageParam = Union[
 
 
 class ChatCompletionRequest(BaseModel):
-    model: str
+    model: Optional[str] = None
     messages: Union[str, List[ChatCompletionMessageParam]]
     temperature: Optional[float] = 0.7
     top_p: Optional[float] = 1.0
+    top_k: Optional[int] = -1
     n: Optional[int] = 1
     max_tokens: Optional[int] = 16
     stop: Optional[Union[str, List[str]]] = Field(default_factory=list)
@@ -141,7 +143,7 @@ class ChatCompletionResponse(BaseModel):
     id: str
     object: str = "chat.completion"
     created: int = Field(default_factory=lambda: int(time.time()))
-    model: str
+    model: Optional[str] = None
     choices: List[ChatCompletionResponseChoice]
     usage: UsageInfo
 
@@ -161,5 +163,5 @@ class ChatCompletionStreamResponse(BaseModel):
     id: str
     object: str = "chat.completion.chunk"
     created: int = Field(default_factory=lambda: int(time.time()))
-    model: str
+    model: Optional[str] = None
     choices: List[ChatCompletionResponseStreamChoice]
